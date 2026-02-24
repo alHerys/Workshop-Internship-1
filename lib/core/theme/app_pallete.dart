@@ -49,15 +49,15 @@ final class AppPallete {
   static const errorDarkActive = Color(0xff731212);
   static const errorDarker = Color(0xff590e0e);
 
-  // --- Semantic: Star/Warning ---
-  static const warningLight = Color(0xfffffde6);
-  static const warningLightHover = Color(0xfffffcd9);
-  static const warningLightActive = Color(0xfffff8b0);
-  static const warningNormal = Color(0xffffea00);
-  static const warningNormalHover = Color(0xffe6d300);
-  static const warningNormalActive = Color(0xffccbb00);
-  static const warningDark = Color(0xffbfb000);
-  static const warningDarkHover = Color(0xff998c00);
-  static const warningDarkActive = Color(0xff736900);
-  static const warningDarker = Color(0xff595200);
+  // --- Semantic: Star/yellow ---
+  static const yellowLight = Color(0xfffffde6);
+  static const yellowLightHover = Color(0xfffffcd9);
+  static const yellowLightActive = Color(0xfffff8b0);
+  static const yellowNormal = Color(0xffffea00);
+  static const yellowNormalHover = Color(0xffe6d300);
+  static const yellowNormalActive = Color(0xffccbb00);
+  static const yellowDark = Color(0xffbfb000);
+  static const yellowDarkHover = Color(0xff998c00);
+  static const yellowDarkActive = Color(0xff736900);
+  static const yellowDarker = Color(0xff595200);
 }

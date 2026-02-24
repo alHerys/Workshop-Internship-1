@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'presentation/onboarding/onboarding_page.dart';
+import 'presentation/auth/pages/login_page.dart';
+import 'presentation/auth/pages/start_page.dart';
+import 'presentation/onboarding/pages/onboarding_page_1.dart';
 
 import 'core/theme/app_theme.dart';
 
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: OnboardingPage(),
+      home: LoginPage(),
     );
   }
 }
