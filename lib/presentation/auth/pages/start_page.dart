@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key});
+class StartPage extends StatelessWidget {
+  const StartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const .all(20.0),
         child: Center(
           child: Column(
             mainAxisAlignment: .center,
@@ -34,7 +34,7 @@ class OnboardingPage extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: 215,),
+              SizedBox(height: 215),
 
               Column(
                 crossAxisAlignment: .stretch,
