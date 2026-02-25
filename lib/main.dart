@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/auth/pages/login_page.dart';
 import 'presentation/auth/pages/register_page.dart';
-import 'presentation/onboarding/pages/onboarding_page_1.dart';
+import 'presentation/onboarding_splash/pages/onboarding_page_1.dart';
 
 void main() {
   runApp(const MyApp());

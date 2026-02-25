@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_pallete.dart';
-import '../../core/theme/app_text.dart';
+import '../../../core/theme/app_pallete.dart';
+import '../../../core/theme/app_text.dart';
 
 class OnboardingWidget extends StatefulWidget {
   final String imagePath;
