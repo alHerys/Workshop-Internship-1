@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/const/image_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
+import 'login_page.dart';
+import 'register_page.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -58,11 +60,23 @@ class StartPage extends StatelessWidget {
                   spacing: 16,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegisterPage(),
+                          ),
+                        );
+                      },
                       child: Text('Daftar', style: AppText.semiBold20),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppPallete.primaryLight,
                         foregroundColor: AppPallete.primaryNormal,

@@ -10,6 +10,7 @@ import '../../../core/validator/auth_validator.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
+import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -41,103 +42,192 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppPallete.neutral100,
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Form(
-          key: formKey,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: .center,
-                      crossAxisAlignment: .stretch,
-                      children: [
-                        Text(
-                          'Daftar',
-                          style: AppText.semiBold32.copyWith(
-                            color: AppPallete.primaryNormal,
+      body: Form(
+        key: formKey,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: LayoutBuilder(
+              builder: (context, constraint) {
+                return SingleChildScrollView(
+                  reverse: true,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraint.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: .center,
+                        crossAxisAlignment: .stretch,
+                        children: [
+                          Spacer(),
+
+                          Text(
+                            'Daftar',
+                            style: AppText.semiBold32.copyWith(
+                              color: AppPallete.primaryNormal,
+                            ),
+                            textAlign: .center,
                           ),
-                          textAlign: .center,
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Buat akun baru kamu',
-                          style: AppText.regular14,
-                          textAlign: .center,
-                        ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Buat akun baru kamu',
+                            style: AppText.regular14,
+                            textAlign: .center,
+                          ),
 
-                        SizedBox(height: 52),
+                          SizedBox(height: 52),
 
-                        Column(
-                          spacing: 20,
-                          children: [
-                            CustomField(
-                              label: 'Nama Lengkap',
-                              controller: namaController,
-                              prefixIcon: SvgPicture.asset(IconConst.person),
-                              validator: (value) =>
-                                  AuthValidator.name(value: value),
+                          Column(
+                            spacing: 20,
+                            children: [
+                              CustomField(
+                                label: 'Nama Lengkap',
+                                controller: namaController,
+                                prefixIcon: SvgPicture.asset(IconConst.person),
+                                validator: (value) =>
+                                    AuthValidator.name(value: value),
+                              ),
+                              CustomField(
+                                label: 'Email',
+                                controller: emailController,
+                                prefixIcon: SvgPicture.asset(IconConst.email),
+                                validator: (value) =>
+                                    AuthValidator.email(value: value),
+                              ),
+
+                              PasswordField(
+                                label: 'Kata Sandi',
+                                controller: passwordController,
+                                validator: (value) =>
+                                    AuthValidator.password(value: value),
+                              ),
+
+                              PasswordField(
+                                label: 'Konfirmasi Kata Sandi',
+                                controller: confirmPasswordController,
+                                validator: (value) =>
+                                    AuthValidator.confirmPassword(
+                                      password: passwordController.text,
+                                      confirmPassword: value,
+                                    ),
+                              ),
+                            ],
+                          ),
+
+                          CheckboxListTile(
+                            activeColor: AppPallete.primaryNormal,
+                            controlAffinity: .leading,
+                            checkboxShape: CircleBorder(),
+                            value: aggreTermCondition,
+                            contentPadding: .all(0),
+                            checkColor: AppPallete.neutral100,
+                            side: BorderSide(
+                              color: AppPallete.primaryNormal,
+                              width: 2,
                             ),
-                            CustomField(
-                              label: 'Email',
-                              controller: emailController,
-                              prefixIcon: SvgPicture.asset(IconConst.email),
-                              validator: (value) =>
-                                  AuthValidator.email(value: value),
-                            ),
-
-                            PasswordField(
-                              label: 'Kata Sandi',
-                              controller: passwordController,
-                              validator: (value) =>
-                                  AuthValidator.password(value: value),
-                            ),
-
-                            PasswordField(
-                              label: 'Konfirmasi Kata Sandi',
-                              controller: confirmPasswordController,
-                              validator: (value) =>
-                                  AuthValidator.confirmPassword(
-                                    password: passwordController.text,
-                                    confirmPassword: value,
+                            onChanged: (value) {
+                              setState(() {
+                                aggreTermCondition = value ?? false;
+                              });
+                            },
+                            title: RichText(
+                              text: TextSpan(
+                                text: 'Setuju dengan ',
+                                style: AppText.regular14.copyWith(
+                                  color: AppPallete.neutral900,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Syarat & Ketentuan',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        // TODO: Term & Condition
+                                      },
+                                    style: AppText.regular14.copyWith(
+                                      decoration: .underline,
+                                      color: AppPallete.primaryNormal,
+                                    ),
                                   ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-
-                        CheckboxListTile(
-                          activeColor: AppPallete.primaryNormal,
-                          controlAffinity: .leading,
-                          checkboxShape: CircleBorder(),
-                          value: aggreTermCondition,
-                          contentPadding: .all(0),
-                          checkColor: AppPallete.neutral100,
-                          side: BorderSide(
-                            color: AppPallete.primaryNormal,
-                            width: 2,
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              aggreTermCondition = value ?? false;
-                            });
-                          },
-                          title: RichText(
+
+                          SizedBox(height: 10),
+
+                          Spacer(),
+
+                          AuthButton(
+                            formKey: formKey,
+                            namaController: namaController,
+                            emailController: emailController,
+                            passwordController: passwordController,
+                            confirmPasswordController:
+                                confirmPasswordController,
+                            aggreTermCondition: aggreTermCondition,
+                            onPressed: () {
+                              // TODO: Implement registration logic
+                            },
+                            buttonText: 'Daftar',
+                          ),
+                          Stack(
+                            alignment: .center,
+                            children: [
+                              Divider(),
+                              Container(
+                                color: AppPallete.neutral100,
+                                padding: .symmetric(
+                                  horizontal: 9,
+                                  vertical: 12,
+                                ),
+                                child: Text(
+                                  'atau daftar dengan',
+                                  style: AppText.regular14,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            mainAxisAlignment: .center,
+                            spacing: 20,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // TODO: Implement Google registration logic
+                                },
+                                child: SvgPicture.asset(IconConst.googleLogo),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // TODO: Implement Apple registration logic
+                                },
+                                child: SvgPicture.asset(IconConst.appleLogo),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 38),
+
+                          RichText(
+                            textAlign: .center,
                             text: TextSpan(
-                              text: 'Setuju dengan ',
+                              text: 'Sudah memiliki akun? ',
                               style: AppText.regular14.copyWith(
                                 color: AppPallete.neutral900,
                               ),
                               children: [
                                 TextSpan(
-                                  text: 'Syarat & Ketentuan',
+                                  text: 'Masuk',
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      // TODO: Term & Condition
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => LoginPage(),
+                                        ),
+                                      );
                                     },
                                   style: AppText.regular14.copyWith(
                                     decoration: .underline,
@@ -147,90 +237,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               ],
                             ),
                           ),
-                        ),
-
-                        SizedBox(height: 8),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-
-                  Column(
-                    crossAxisAlignment: .stretch,
-                    mainAxisAlignment: .end,
-                    children: [
-                      AuthButton(
-                        formKey: formKey,
-                        namaController: namaController,
-                        emailController: emailController,
-                        passwordController: passwordController,
-                        confirmPasswordController: confirmPasswordController,
-                        onPressed: () {
-                          // TODO: Implement registration logic
-                        },
-                        buttonText: 'Daftar',
-                      ),
-                      Stack(
-                        alignment: .center,
-                        children: [
-                          Divider(),
-                          Container(
-                            color: AppPallete.neutral100,
-                            padding: .symmetric(horizontal: 9, vertical: 12),
-                            child: Text(
-                              'atau daftar dengan',
-                              style: AppText.regular14,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: .center,
-                        spacing: 20,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // TODO: Implement Google registration logic
-                            },
-                            child: SvgPicture.asset(IconConst.googleLogo),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // TODO: Implement Apple registration logic
-                            },
-                            child: SvgPicture.asset(IconConst.appleLogo),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 38),
-
-                      RichText(
-                        textAlign: .center,
-                        text: TextSpan(
-                          text: 'Sudah memiliki akun? ',
-                          style: AppText.regular14.copyWith(
-                            color: AppPallete.neutral900,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Masuk',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pop(context);
-                                },
-                              style: AppText.regular14.copyWith(
-                                decoration: .underline,
-                                color: AppPallete.primaryNormal,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),

@@ -7,6 +7,7 @@ class AuthButton extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController? passwordController;
   final TextEditingController? confirmPasswordController;
+  final bool? aggreTermCondition;
   final VoidCallback onPressed;
 
   const AuthButton({
@@ -18,6 +19,7 @@ class AuthButton extends StatefulWidget {
     this.confirmPasswordController,
     required this.onPressed,
     required this.buttonText,
+    this.aggreTermCondition,
   });
 
   final GlobalKey<FormState> formKey;
@@ -34,6 +36,7 @@ class _AuthButtonState extends State<AuthButton> {
         widget.emailController.text.isNotEmpty &&
         (widget.passwordController == null ||
             widget.passwordController!.text.isNotEmpty) &&
+        (widget.aggreTermCondition == null || widget.aggreTermCondition!) &&
         (widget.namaController == null ||
             widget.namaController!.text.isNotEmpty) &&
         (widget.confirmPasswordController == null ||
@@ -50,6 +53,14 @@ class _AuthButtonState extends State<AuthButton> {
     widget.emailController.addListener(_updateFieldsFilled);
     widget.passwordController?.addListener(_updateFieldsFilled);
     widget.confirmPasswordController?.addListener(_updateFieldsFilled);
+  }
+
+  @override
+  void didUpdateWidget(AuthButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.aggreTermCondition != widget.aggreTermCondition) {
+      _updateFieldsFilled();
+    }
   }
 
   @override

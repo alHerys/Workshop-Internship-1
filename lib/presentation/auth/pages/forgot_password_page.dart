@@ -9,9 +9,9 @@ import '../../../core/validator/auth_validator.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
-import '../widgets/background2.dart';
 import '../widgets/background3.dart';
 import '../widgets/custom_field.dart';
+import 'password_reset_success.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -75,52 +75,65 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               key: formKey,
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
                     crossAxisAlignment: .stretch,
+                    mainAxisAlignment: .center,
                     children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: .center,
-                          crossAxisAlignment: .stretch,
-                          children: [
-                            Text(
-                              'Lupa Password',
-                              style: AppText.semiBold32.copyWith(
-                                color: AppPallete.primaryNormal,
-                              ),
-                              textAlign: .center,
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Silahkan tulis alamat email kamu',
-                              style: AppText.regular14,
-                              textAlign: .center,
-                            ),
+                      Spacer(),
 
-                            SizedBox(height: 52),
-
-                            CustomField(
-                              label: 'Email',
-                              controller: emailController,
-                              prefixIcon: SvgPicture.asset(IconConst.email),
-                              validator: (value) =>
-                                  AuthValidator.email(value: value),
+                      Column(
+                        mainAxisAlignment: .center,
+                        crossAxisAlignment: .stretch,
+                        children: [
+                          Text(
+                            'Lupa Password',
+                            style: AppText.semiBold32.copyWith(
+                              color: AppPallete.primaryNormal,
                             ),
-                          ],
+                            textAlign: .center,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Silahkan tulis alamat email kamu',
+                            style: AppText.regular14,
+                            textAlign: .center,
+                          ),
+
+                          SizedBox(height: 52),
+
+                          CustomField(
+                            label: 'Email',
+                            controller: emailController,
+                            prefixIcon: SvgPicture.asset(IconConst.email),
+                            validator: (value) =>
+                                AuthValidator.email(value: value),
+                          ),
+                        ],
+                      ),
+
+                      Spacer(),
+
+                      Flexible(
+                        child: AuthButton(
+                          formKey: formKey,
+                          emailController: emailController,
+                          buttonText: 'Kirim',
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      PasswordResetSuccessPage(
+                                        email: emailController.text,
+                                      ),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
-
-                      AuthButton(
-                        formKey: formKey,
-                        emailController: emailController,
-                        buttonText: 'Kirim',
-                        onPressed: () {
-                          // TODO: Implement forgot password logic
-                        },
-                      ),
-
-                      SizedBox(height: 100),
                     ],
                   ),
                 ),

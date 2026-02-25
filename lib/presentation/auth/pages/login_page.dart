@@ -59,148 +59,162 @@ class _LoginPageState extends State<LoginPage> {
             Form(
               key: formKey,
               child: SafeArea(
+                top: false,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Stack(
-                    children: [
-                      Column(
-                        mainAxisAlignment: .center,
-                        crossAxisAlignment: .stretch,
-                        children: [
-                          Text(
-                            'Selamat datang!',
-                            style: AppText.semiBold32.copyWith(
-                              color: AppPallete.primaryNormal,
-                            ),
-                            textAlign: .center,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        reverse: true,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Masuk ke akunmu',
-                            style: AppText.regular14,
-                            textAlign: .center,
-                          ),
-
-                          SizedBox(height: 52),
-
-                          CustomField(
-                            label: 'Email',
-                            controller: emailController,
-                            prefixIcon: SvgPicture.asset(IconConst.email),
-                            validator: (value) =>
-                                AuthValidator.email(value: value),
-                          ),
-                          SizedBox(height: 28),
-                          PasswordField(
-                            controller: passwordController,
-                            validator: (value) =>
-                                AuthValidator.password(value: value),
-                            label: 'Kata Sandi',
-                          ),
-
-                          SizedBox(height: 8),
-                          GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ForgotPasswordPage(),
-                              ),
-                            ),
-                            child: Text(
-                              'Lupa kata sandi?',
-                              style: AppText.medium14.copyWith(
-                                color: AppPallete.primaryNormal,
-                              ),
-                              textAlign: .end,
-                            ),
-                          ),
-
-                          SizedBox(height: 60),
-                        ],
-                      ),
-
-                      Column(
-                        crossAxisAlignment: .stretch,
-                        mainAxisAlignment: .end,
-                        children: [
-                          AuthButton(
-                            formKey: formKey,
-                            emailController: emailController,
-                            passwordController: passwordController,
-                            buttonText: 'Masuk',
-                            onPressed: () {
-                              // TODO: Implement login logic
-                            },
-                          ),
-                          Stack(
-                            alignment: .center,
-                            children: [
-                              Divider(),
-                              Container(
-                                color: AppPallete.neutral100,
-                                padding: .symmetric(
-                                  horizontal: 9,
-                                  vertical: 12,
-                                ),
-                                child: Text(
-                                  'atau masuk dengan',
-                                  style: AppText.regular14,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Row(
-                            mainAxisAlignment: .center,
-                            spacing: 20,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  // TODO: Implement Google login logic
-                                },
-                                child: SvgPicture.asset(IconConst.googleLogo),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  // TODO: Implement Apple login logic
-                                },
-                                child: SvgPicture.asset(IconConst.appleLogo),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 38),
-
-                          RichText(
-                            textAlign: .center,
-                            text: TextSpan(
-                              text: 'Belum memiliki akun? ',
-                              style: AppText.regular14.copyWith(
-                                color: AppPallete.neutral900,
-                              ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              mainAxisAlignment: .center,
+                              crossAxisAlignment: .stretch,
                               children: [
-                                TextSpan(
-                                  text: 'Daftar',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => RegisterPage(),
-                                        ),
-                                      );
-                                    },
-                                  style: AppText.regular14.copyWith(
-                                    decoration: .underline,
+                                Spacer(flex: 2),
+                                Text(
+                                  'Selamat datang!',
+                                  style: AppText.semiBold32.copyWith(
                                     color: AppPallete.primaryNormal,
+                                  ),
+                                  textAlign: .center,
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Masuk ke akunmu',
+                                  style: AppText.regular14,
+                                  textAlign: .center,
+                                ),
+
+                                SizedBox(height: 52),
+
+                                CustomField(
+                                  label: 'Email',
+                                  controller: emailController,
+                                  prefixIcon: SvgPicture.asset(IconConst.email),
+                                  validator: (value) =>
+                                      AuthValidator.email(value: value),
+                                ),
+                                SizedBox(height: 28),
+                                PasswordField(
+                                  controller: passwordController,
+                                  validator: (value) =>
+                                      AuthValidator.password(value: value),
+                                  label: 'Kata Sandi',
+                                ),
+
+                                SizedBox(height: 8),
+                                GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordPage(),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Lupa kata sandi?',
+                                    style: AppText.medium14.copyWith(
+                                      color: AppPallete.primaryNormal,
+                                    ),
+                                    textAlign: .end,
+                                  ),
+                                ),
+
+                                SizedBox(height: 60),
+
+                                Spacer(flex: 1),
+
+                                AuthButton(
+                                  formKey: formKey,
+                                  emailController: emailController,
+                                  passwordController: passwordController,
+                                  buttonText: 'Masuk',
+                                  onPressed: () {
+                                    // TODO: Implement login logic
+                                  },
+                                ),
+                                Stack(
+                                  alignment: .center,
+                                  children: [
+                                    Divider(),
+                                    Container(
+                                      color: AppPallete.neutral100,
+                                      padding: .symmetric(
+                                        horizontal: 9,
+                                        vertical: 12,
+                                      ),
+                                      child: Text(
+                                        'atau masuk dengan',
+                                        style: AppText.regular14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  mainAxisAlignment: .center,
+                                  spacing: 20,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // TODO: Implement Google login logic
+                                      },
+                                      child: SvgPicture.asset(
+                                        IconConst.googleLogo,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // TODO: Implement Apple login logic
+                                      },
+                                      child: SvgPicture.asset(
+                                        IconConst.appleLogo,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                SizedBox(height: 38),
+
+                                RichText(
+                                  textAlign: .center,
+                                  text: TextSpan(
+                                    text: 'Belum memiliki akun? ',
+                                    style: AppText.regular14.copyWith(
+                                      color: AppPallete.neutral900,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Daftar',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RegisterPage(),
+                                              ),
+                                            );
+                                          },
+                                        style: AppText.regular14.copyWith(
+                                          decoration: .underline,
+                                          color: AppPallete.primaryNormal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

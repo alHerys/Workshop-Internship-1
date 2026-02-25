@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'core/theme/app_theme.dart';
 import 'presentation/auth/pages/login_page.dart';
+import 'presentation/auth/pages/register_page.dart';
+import 'presentation/onboarding/pages/onboarding_page_1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: LoginPage(),
+      home: RegisterPage(),
     );
   }
 }

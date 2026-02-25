@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_pallete.dart';
 
 class AuthBackground extends StatelessWidget {
   final CustomClipper<Path> background1;
@@ -24,7 +23,7 @@ class AuthBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.1),
+      padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.05),
       child: Stack(
         children: [
           ClipPath(
