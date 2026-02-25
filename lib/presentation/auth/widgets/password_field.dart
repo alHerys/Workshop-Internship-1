@@ -3,17 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/const/icons_const.dart';
-import '../pages/login_page.dart';
 import 'custom_field.dart';
 
 class PasswordField extends StatefulWidget {
-  final TextEditingController passwordController;
+  final TextEditingController controller;
   final String? Function(String?)? validator;
+  final String label;
 
   const PasswordField({
     super.key,
-    required this.passwordController,
+    required this.controller,
     this.validator,
+    required this.label,
   });
 
   @override
@@ -27,8 +28,8 @@ class _PasswordFieldState extends State<PasswordField> {
   Widget build(BuildContext context) {
     return CustomField(
       validator: widget.validator,
-      label: 'Kata Sandi',
-      controller: widget.passwordController,
+      label: widget.label,
+      controller: widget.controller,
       isObscured: isObscured,
       prefixIcon: SvgPicture.asset(IconConst.lock),
       suffixIcon: GestureDetector(

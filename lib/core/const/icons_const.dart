@@ -6,4 +6,5 @@ final class IconConst {
   static const String lock = 'assets/icons/auth/lock.svg';
   static const String visibilityOn = 'assets/icons/auth/visibility_on.svg';
   static const String visibilityOff = 'assets/icons/auth/visibility_off.svg';
+  static const String person = 'assets/icons/auth/person.svg';
 }

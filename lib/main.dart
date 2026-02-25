@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'presentation/auth/pages/login_page.dart';
-import 'presentation/auth/pages/start_page.dart';
-import 'presentation/onboarding/pages/onboarding_page_1.dart';
 
 import 'core/theme/app_theme.dart';
+import 'presentation/auth/pages/login_page.dart';
+import 'presentation/auth/pages/register_page.dart';
 
 void main() {
   runApp(const MyApp());

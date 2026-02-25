@@ -23,6 +23,7 @@ class CustomField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       validator: validator,
       decoration: InputDecoration(
         label: Text(label),

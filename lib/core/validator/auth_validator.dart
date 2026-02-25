@@ -28,13 +28,15 @@ class AuthValidator {
   }
 
   static String? confirmPassword({
-    required String? password,
+    required String password,
     required String? confirmPassword,
   }) {
     if (confirmPassword == null || confirmPassword.trim().isEmpty) {
       return 'Konfirmasi Kata Sandi tidak boleh kosong';
     }
-    if (password != confirmPassword) {
+    if (password.trim() != confirmPassword.trim()) {
+      print(password);
+      print(confirmPassword);
       return 'Kata sandi tidak sama';
     }
     return null;

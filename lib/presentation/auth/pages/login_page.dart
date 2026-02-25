@@ -7,11 +7,11 @@ import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
-import '../widgets/background1.dart';
-import '../widgets/background2.dart';
-import '../widgets/background3.dart';
+import '../widgets/auth_background.dart';
+import '../widgets/auth_button.dart';
 import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,31 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         right: false,
         child: Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.sizeOf(context).height * 0.1,
-              ),
-              child: Stack(
-                children: [
-                  ClipPath(
-                    clipper: Background1(),
-                    child: Container(
-                      color: AppPallete.neutral100.withValues(alpha: 0.4),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: Background2(),
-                    child: Container(
-                      color: AppPallete.neutral100.withValues(alpha: 0.5),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: Background3(),
-                    child: Container(color: AppPallete.neutral100),
-                  ),
-                ],
-              ),
-            ),
+            AuthBackground(),
 
             Form(
               key: formKey,
@@ -105,9 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           SizedBox(height: 28),
                           PasswordField(
-                            passwordController: passwordController,
+                            controller: passwordController,
                             validator: (value) =>
                                 AuthValidator.password(value: value),
+                            label: 'Kata Sandi',
                           ),
 
                           SizedBox(height: 8),
@@ -127,13 +104,13 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: .stretch,
                         mainAxisAlignment: .end,
                         children: [
-                          ElevatedButton(
+                          AuthButton(
+                            formKey: formKey,
+                            emailController: emailController,
+                            passwordController: passwordController,
                             onPressed: () {
-                              if (!formKey.currentState!.validate()) {
-                                print('Success');
-                              }
+                              // TODO: Implement login logic
                             },
-                            child: Text('Masuk', style: AppText.semiBold20),
                           ),
                           Stack(
                             alignment: .center,
@@ -157,8 +134,18 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: .center,
                             spacing: 20,
                             children: [
-                              SvgPicture.asset(IconConst.googleLogo),
-                              SvgPicture.asset(IconConst.appleLogo),
+                              GestureDetector(
+                                onTap: () {
+                                  // TODO: Implement Google login logic
+                                },
+                                child: SvgPicture.asset(IconConst.googleLogo),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // TODO: Implement Apple login logic
+                                },
+                                child: SvgPicture.asset(IconConst.appleLogo),
+                              ),
                             ],
                           ),
 
@@ -175,7 +162,14 @@ class _LoginPageState extends State<LoginPage> {
                                 TextSpan(
                                   text: 'Daftar',
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () {},
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => RegisterPage(),
+                                        ),
+                                      );
+                                    },
                                   style: AppText.regular14.copyWith(
                                     decoration: .underline,
                                     color: AppPallete.primaryNormal,
