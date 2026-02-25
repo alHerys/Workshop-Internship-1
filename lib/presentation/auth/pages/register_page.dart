@@ -26,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
   bool passwordObscured = true;
   bool confirmPasswordObscured = true;
+  bool aggreTermCondition = false;
 
   @override
   void dispose() {
@@ -109,6 +110,45 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
 
+                        CheckboxListTile(
+                          activeColor: AppPallete.primaryNormal,
+                          controlAffinity: .leading,
+                          checkboxShape: CircleBorder(),
+                          value: aggreTermCondition,
+                          contentPadding: .all(0),
+                          checkColor: AppPallete.neutral100,
+                          side: BorderSide(
+                            color: AppPallete.primaryNormal,
+                            width: 2,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              aggreTermCondition = value ?? false;
+                            });
+                          },
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Setuju dengan ',
+                              style: AppText.regular14.copyWith(
+                                color: AppPallete.neutral900,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Syarat & Ketentuan',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // TODO: Term & Condition
+                                    },
+                                  style: AppText.regular14.copyWith(
+                                    decoration: .underline,
+                                    color: AppPallete.primaryNormal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         SizedBox(height: 8),
                       ],
                     ),
@@ -127,6 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () {
                           // TODO: Implement registration logic
                         },
+                        buttonText: 'Daftar',
                       ),
                       Stack(
                         alignment: .center,

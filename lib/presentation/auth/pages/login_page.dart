@@ -9,8 +9,12 @@ import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
+import '../widgets/background1.dart';
+import '../widgets/background2.dart';
+import '../widgets/background3.dart';
 import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
+import 'forgot_password_page.dart';
 import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,7 +47,14 @@ class _LoginPageState extends State<LoginPage> {
         right: false,
         child: Stack(
           children: [
-            AuthBackground(),
+            AuthBackground(
+              background1: Background1(),
+              background1Color: AppPallete.neutral100.withValues(alpha: 0.4),
+              background2: Background2(),
+              background2Color: AppPallete.neutral100.withValues(alpha: 0.5),
+              background3: Background3(),
+              background3Color: AppPallete.neutral100,
+            ),
 
             Form(
               key: formKey,
@@ -88,12 +99,20 @@ class _LoginPageState extends State<LoginPage> {
                           ),
 
                           SizedBox(height: 8),
-                          Text(
-                            'Lupa kata sandi?',
-                            style: AppText.medium14.copyWith(
-                              color: AppPallete.primaryNormal,
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage(),
+                              ),
                             ),
-                            textAlign: .end,
+                            child: Text(
+                              'Lupa kata sandi?',
+                              style: AppText.medium14.copyWith(
+                                color: AppPallete.primaryNormal,
+                              ),
+                              textAlign: .end,
+                            ),
                           ),
 
                           SizedBox(height: 60),
@@ -108,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                             formKey: formKey,
                             emailController: emailController,
                             passwordController: passwordController,
+                            buttonText: 'Masuk',
                             onPressed: () {
                               // TODO: Implement login logic
                             },

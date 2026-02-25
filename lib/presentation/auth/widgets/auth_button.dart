@@ -1,12 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_text.dart';
 
 class AuthButton extends StatefulWidget {
+  final String buttonText;
   final TextEditingController? namaController;
   final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final TextEditingController? passwordController;
   final TextEditingController? confirmPasswordController;
   final VoidCallback onPressed;
 
@@ -14,10 +13,11 @@ class AuthButton extends StatefulWidget {
     super.key,
     required this.formKey,
     required this.emailController,
-    required this.passwordController,
+    this.passwordController,
     this.namaController,
     this.confirmPasswordController,
     required this.onPressed,
+    required this.buttonText,
   });
 
   final GlobalKey<FormState> formKey;
@@ -32,7 +32,8 @@ class _AuthButtonState extends State<AuthButton> {
   void _updateFieldsFilled() {
     final filled =
         widget.emailController.text.isNotEmpty &&
-        widget.passwordController.text.isNotEmpty &&
+        (widget.passwordController == null ||
+            widget.passwordController!.text.isNotEmpty) &&
         (widget.namaController == null ||
             widget.namaController!.text.isNotEmpty) &&
         (widget.confirmPasswordController == null ||
@@ -47,7 +48,7 @@ class _AuthButtonState extends State<AuthButton> {
     super.initState();
     widget.namaController?.addListener(_updateFieldsFilled);
     widget.emailController.addListener(_updateFieldsFilled);
-    widget.passwordController.addListener(_updateFieldsFilled);
+    widget.passwordController?.addListener(_updateFieldsFilled);
     widget.confirmPasswordController?.addListener(_updateFieldsFilled);
   }
 
@@ -55,7 +56,7 @@ class _AuthButtonState extends State<AuthButton> {
   void dispose() {
     widget.namaController?.removeListener(_updateFieldsFilled);
     widget.emailController.removeListener(_updateFieldsFilled);
-    widget.passwordController.removeListener(_updateFieldsFilled);
+    widget.passwordController?.removeListener(_updateFieldsFilled);
     widget.confirmPasswordController?.removeListener(_updateFieldsFilled);
     super.dispose();
   }
@@ -64,7 +65,7 @@ class _AuthButtonState extends State<AuthButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: isFieldsFilled ? widget.onPressed : null,
-      child: Text('Daftar', style: AppText.semiBold20),
+      child: Text(widget.buttonText, style: AppText.semiBold20),
     );
   }
 }

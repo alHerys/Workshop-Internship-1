@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'core/theme/app_theme.dart';
 import 'presentation/auth/pages/login_page.dart';
-import 'presentation/auth/pages/register_page.dart';
 
 void main() {
   runApp(const MyApp());
