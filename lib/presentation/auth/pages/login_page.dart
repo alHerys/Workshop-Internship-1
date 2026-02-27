@@ -1,12 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../core/const/gif_const.dart';
 import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
+import '../../home/pages/home_page.dart';
+import '../cubit/auth_cubit.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
@@ -130,12 +134,54 @@ class _LoginPageState extends State<LoginPage> {
                                 Spacer(flex: 1),
 
                                 AuthButton(
-                                  formKey: formKey,
                                   emailController: emailController,
                                   passwordController: passwordController,
-                                  buttonText: 'Masuk',
-                                  onPressed: () {
-                                    // TODO: Implement login logic
+                                  buttonContent: BlocConsumer<AuthCubit, AuthState>(
+                                    listener: (context, state) {
+                                      if (state is AuthFailure) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Error Occured: ${state.message}',
+                                            ),
+                                          ),
+                                        );
+
+                                        print(state.message);
+                                      }
+
+                                      if (state is AuthSuccess) {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage(),
+                                          ),
+                                        );
+
+                                        print(state.user);
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      if (state is AuthLoading) {
+                                        return Image.asset(
+                                          GifConst.loadingDot,
+                                          height: 40,
+                                        );
+                                      }
+
+                                      return Text(
+                                        'Masuk',
+                                        style: AppText.semiBold20,
+                                      );
+                                    },
+                                  ),
+                                  onPressed: () async {
+                                    await context.read<AuthCubit>().login(
+                                      emailController.text.trim(),
+                                      passwordController.text.trim(),
+                                    );
                                   },
                                 ),
                                 Stack(

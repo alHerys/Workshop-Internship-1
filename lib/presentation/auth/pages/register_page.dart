@@ -1,12 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../core/const/gif_const.dart';
 import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
+import '../../home/pages/home_page.dart';
+import '../cubit/auth_cubit.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
@@ -159,17 +163,80 @@ class _RegisterPageState extends State<RegisterPage> {
                           Spacer(),
 
                           AuthButton(
-                            formKey: formKey,
                             namaController: namaController,
                             emailController: emailController,
                             passwordController: passwordController,
                             confirmPasswordController:
                                 confirmPasswordController,
                             aggreTermCondition: aggreTermCondition,
-                            onPressed: () {
-                              // TODO: Implement registration logic
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                await context.read<AuthCubit>().register(
+                                  namaController.text,
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Email Terkirim',
+                                        style: AppText.semiBold18,
+                                        textAlign: .center,
+                                      ),
+                                      content: Text(
+                                        'Kami telah mengirim ulang email. Periksa kotak masuk atau folder spam Anda.',
+                                        style: AppText.regular14,
+                                        textAlign: .center,
+                                      ),
+                                      actionsAlignment: .center,
+                                      contentPadding: .all(20),
+                                      insetPadding: .all(20),
+                                    );
+                                  },
+                                );
+                              }
                             },
-                            buttonText: 'Daftar',
+                            buttonContent: BlocConsumer<AuthCubit, AuthState>(
+                              listener: (context, state) {
+                                if (state is AuthFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Error Occured: ${state.message}',
+                                      ),
+                                    ),
+                                  );
+
+                                  print(state.message);
+                                }
+
+                                if (state is AuthSuccess) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomePage(),
+                                    ),
+                                  );
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is AuthLoading) {
+                                  return Image.asset(
+                                    GifConst.loadingDot,
+                                    height: 40,
+                                  );
+                                }
+
+                                return Text(
+                                  'Daftar',
+                                  style: AppText.semiBold20,
+                                );
+                              },
+                            ),
                           ),
                           Stack(
                             alignment: .center,

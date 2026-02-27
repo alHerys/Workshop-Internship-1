@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_text.dart';
 
 class AuthButton extends StatefulWidget {
-  final String buttonText;
+  final Widget buttonContent;
   final TextEditingController? namaController;
   final TextEditingController emailController;
   final TextEditingController? passwordController;
@@ -12,17 +11,15 @@ class AuthButton extends StatefulWidget {
 
   const AuthButton({
     super.key,
-    required this.formKey,
     required this.emailController,
     this.passwordController,
     this.namaController,
     this.confirmPasswordController,
     required this.onPressed,
-    required this.buttonText,
+    required this.buttonContent,
     this.aggreTermCondition,
   });
 
-  final GlobalKey<FormState> formKey;
 
   @override
   State<AuthButton> createState() => _AuthButtonState();
@@ -76,7 +73,7 @@ class _AuthButtonState extends State<AuthButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: isFieldsFilled ? widget.onPressed : null,
-      child: Text(widget.buttonText, style: AppText.semiBold20),
+      child: widget.buttonContent,
     );
   }
 }

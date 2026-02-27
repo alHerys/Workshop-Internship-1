@@ -116,10 +116,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                       Flexible(
                         child: AuthButton(
-                          formKey: formKey,
                           emailController: emailController,
-                          buttonText: 'Kirim',
-                          onPressed: () {
+                          buttonContent: Text(
+                            'Kirim',
+                            style: AppText.semiBold20,
+                          ),
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               Navigator.pushReplacement(
                                 context,
