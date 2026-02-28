@@ -6,6 +6,7 @@ import 'core/const/secret_const.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/auth/cubit/auth_cubit.dart';
 import 'presentation/home/pages/home_page.dart';
+import 'presentation/home/pages/root_page.dart';
 import 'presentation/onboarding_splash/pages/onboarding_page_1.dart';
 
 void main() async {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             if (state is AuthSuccess) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => RootPage()),
               );
             }
           },

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../core/const/gif_const.dart';
-import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
@@ -13,10 +11,8 @@ import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
 import '../widgets/background3.dart';
-import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
 import 'login_page.dart';
-import 'password_email_send_page.dart';
 
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});
@@ -154,7 +150,10 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                             },
                             builder: (context, state) {
                               if (state is AuthLoading) {
-                                return Image.asset(GifConst.loadingDot, height: 30);
+                                return Image.asset(
+                                  GifConst.loadingDot,
+                                  height: 30,
+                                );
                               }
 
                               return Text('Kirim', style: AppText.semiBold20);

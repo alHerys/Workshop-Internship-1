@@ -9,7 +9,7 @@ import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
-import '../../home/pages/home_page.dart';
+import '../../home/pages/root_page.dart';
 import '../cubit/auth_cubit.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/custom_field.dart';
@@ -218,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => HomePage(),
+                                      builder: (context) => RootPage(),
                                     ),
                                   );
                                 }
