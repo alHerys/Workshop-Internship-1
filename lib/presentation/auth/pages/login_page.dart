@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                                       if (state is AuthLoading) {
                                         return Image.asset(
                                           GifConst.loadingDot,
-                                          height: 40,
+                                          height: 30,
                                         );
                                       }
 

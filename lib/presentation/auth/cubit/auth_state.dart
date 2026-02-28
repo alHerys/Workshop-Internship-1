@@ -17,3 +17,7 @@ class AuthFailure extends AuthState {
 
   AuthFailure(this.message);
 }
+
+class SendEmailForgotPassword extends AuthState {}
+
+class PasswordRecovery extends AuthState {}

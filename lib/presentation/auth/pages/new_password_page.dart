@@ -14,22 +14,26 @@ import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
 import '../widgets/background3.dart';
 import '../widgets/custom_field.dart';
+import '../widgets/password_field.dart';
+import 'login_page.dart';
 import 'password_email_send_page.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+class NewPasswordPage extends StatefulWidget {
+  const NewPasswordPage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<NewPasswordPage> createState() => _NewPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _NewPasswordPageState extends State<NewPasswordPage> {
   final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -90,7 +94,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         crossAxisAlignment: .stretch,
                         children: [
                           Text(
-                            'Lupa Password',
+                            'Password Baru',
                             style: AppText.semiBold32.copyWith(
                               color: AppPallete.primaryNormal,
                             ),
@@ -98,19 +102,29 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Silahkan tulis alamat email kamu',
+                            'Silahkan masukkan password baru kamu',
                             style: AppText.regular14,
                             textAlign: .center,
                           ),
 
                           SizedBox(height: 52),
 
-                          CustomField(
-                            label: 'Email',
-                            controller: emailController,
-                            prefixIcon: SvgPicture.asset(IconConst.email),
+                          PasswordField(
+                            label: 'Kata Sandi',
+                            controller: passwordController,
                             validator: (value) =>
-                                AuthValidator.email(value: value),
+                                AuthValidator.password(value: value),
+                          ),
+
+                          SizedBox(height: 20),
+
+                          PasswordField(
+                            label: 'Konfirmasi Kata Sandi',
+                            controller: confirmPasswordController,
+                            validator: (value) => AuthValidator.confirmPassword(
+                              password: passwordController.text,
+                              confirmPassword: value,
+                            ),
                           ),
                         ],
                       ),
@@ -119,47 +133,37 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                       Flexible(
                         child: AuthButton(
-                          emailController: emailController,
+                          passwordController: passwordController,
+                          confirmPasswordController: confirmPasswordController,
                           buttonContent: BlocConsumer<AuthCubit, AuthState>(
                             listener: (context, state) {
-                              if (state is SendEmailForgotPassword) {
+                              if (state is AuthInitial) {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => PasswordEmailSendPage(
-                                      email: emailController.text,
-                                    ),
+                                    builder: (context) => LoginPage(),
                                   ),
                                 );
                               }
 
                               if (state is AuthFailure) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Error Occured: ${state.message}',
-                                    ),
-                                  ),
+                                  SnackBar(content: Text(state.message)),
                                 );
-
-                                print(state.message);
                               }
                             },
                             builder: (context, state) {
                               if (state is AuthLoading) {
-                                return Image.asset(
-                                  GifConst.loadingDot,
-                                  height: 35,
-                                );
+                                return Image.asset(GifConst.loadingDot, height: 30);
                               }
 
-                              return Text('Masuk', style: AppText.semiBold20);
+                              return Text('Kirim', style: AppText.semiBold20);
                             },
                           ),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await context.read<AuthCubit>().sendEmailForgotPassword(
-                                emailController.text.trim(),
+                              await context.read<AuthCubit>().updatePassword(
+                                passwordController.text.trim(),
                               );
                             }
                           },

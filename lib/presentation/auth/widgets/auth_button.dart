@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AuthButton extends StatefulWidget {
   final Widget buttonContent;
   final TextEditingController? namaController;
-  final TextEditingController emailController;
+  final TextEditingController? emailController;
   final TextEditingController? passwordController;
   final TextEditingController? confirmPasswordController;
   final bool? aggreTermCondition;
@@ -11,7 +11,7 @@ class AuthButton extends StatefulWidget {
 
   const AuthButton({
     super.key,
-    required this.emailController,
+    this.emailController,
     this.passwordController,
     this.namaController,
     this.confirmPasswordController,
@@ -19,7 +19,6 @@ class AuthButton extends StatefulWidget {
     required this.buttonContent,
     this.aggreTermCondition,
   });
-
 
   @override
   State<AuthButton> createState() => _AuthButtonState();
@@ -30,7 +29,8 @@ class _AuthButtonState extends State<AuthButton> {
 
   void _updateFieldsFilled() {
     final filled =
-        widget.emailController.text.isNotEmpty &&
+        (widget.emailController == null ||
+            widget.emailController!.text.isNotEmpty) &&
         (widget.passwordController == null ||
             widget.passwordController!.text.isNotEmpty) &&
         (widget.aggreTermCondition == null || widget.aggreTermCondition!) &&
@@ -47,7 +47,7 @@ class _AuthButtonState extends State<AuthButton> {
   void initState() {
     super.initState();
     widget.namaController?.addListener(_updateFieldsFilled);
-    widget.emailController.addListener(_updateFieldsFilled);
+    widget.emailController?.addListener(_updateFieldsFilled);
     widget.passwordController?.addListener(_updateFieldsFilled);
     widget.confirmPasswordController?.addListener(_updateFieldsFilled);
   }
@@ -63,7 +63,7 @@ class _AuthButtonState extends State<AuthButton> {
   @override
   void dispose() {
     widget.namaController?.removeListener(_updateFieldsFilled);
-    widget.emailController.removeListener(_updateFieldsFilled);
+    widget.emailController?.removeListener(_updateFieldsFilled);
     widget.passwordController?.removeListener(_updateFieldsFilled);
     widget.confirmPasswordController?.removeListener(_updateFieldsFilled);
     super.dispose();

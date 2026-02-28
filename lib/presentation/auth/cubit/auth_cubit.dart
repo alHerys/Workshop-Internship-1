@@ -12,9 +12,7 @@ class AuthCubit extends Cubit<AuthState> {
   final supabase = Supabase.instance.client;
   late final StreamSubscription _authStateSubscription;
 
-  AuthCubit() : super(AuthInitial()) {
-    _checkSessionListener();
-  }
+  AuthCubit() : super(AuthInitial());
 
   @override
   Future<void> close() async {
@@ -22,11 +20,18 @@ class AuthCubit extends Cubit<AuthState> {
     return super.close();
   }
 
-  void _checkSessionListener() {
+  void checkSessionListener() {
     _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
       final session = data.session;
+      final event = data.event;
+
+      if (event == AuthChangeEvent.passwordRecovery) {
+        emit(PasswordRecovery());
+        return;
+      }
 
       if (session != null) {
+        print(session.user);
         emit(
           AuthSuccess(
             UserModel(
@@ -72,6 +77,29 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       await supabase.auth.signOut();
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
+  }
+
+  Future<void> sendEmailForgotPassword(String email) async {
+    emit(AuthLoading());
+
+    try {
+      await supabase.auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'io.supabase.malangventure://auth-callback',
+      );
+      emit(SendEmailForgotPassword());
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    emit(AuthLoading());
+    try {
+      await supabase.auth.updateUser(UserAttributes(password: newPassword));
     } catch (e) {
       emit(AuthFailure(e.toString()));
     }

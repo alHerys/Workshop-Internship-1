@@ -1,14 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/const/gif_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
-import 'login_page.dart';
+import '../cubit/auth_cubit.dart';
+import 'new_password_page.dart';
 
-class PasswordResetSuccessPage extends StatelessWidget {
+class PasswordEmailSendPage extends StatelessWidget {
   final String email;
-  const PasswordResetSuccessPage({super.key, required this.email});
+  const PasswordEmailSendPage({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +72,22 @@ class PasswordResetSuccessPage extends StatelessWidget {
                   ),
                 ),
 
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: state is PasswordRecovery
+                          ? () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NewPasswordPage(),
+                                ),
+                              );
+                            }
+                          : null,
+                      child: Text('Selesai', style: AppText.semiBold20),
                     );
                   },
-                  child: Text('Selesai', style: AppText.semiBold20),
                 ),
 
                 SizedBox(height: 12),
@@ -92,7 +102,11 @@ class PasswordResetSuccessPage extends StatelessWidget {
                       TextSpan(
                         text: 'Kirim ulang',
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
+                          ..onTap = () async {
+                            await context.read<AuthCubit>().sendEmailForgotPassword(
+                              email,
+                            );
+
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

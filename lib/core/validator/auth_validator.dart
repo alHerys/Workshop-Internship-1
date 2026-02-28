@@ -35,8 +35,6 @@ class AuthValidator {
       return 'Konfirmasi Kata Sandi tidak boleh kosong';
     }
     if (password.trim() != confirmPassword.trim()) {
-      print(password);
-      print(confirmPassword);
       return 'Kata sandi tidak sama';
     }
     return null;
