@@ -6,7 +6,6 @@ import '../../core/theme/app_text.dart';
 import '../auth/cubit/auth_cubit.dart';
 import '../auth/pages/start_page.dart';
 import '../auth/widgets/auth_background.dart';
-import '../auth/widgets/auth_button.dart';
 import '../auth/widgets/background2.dart';
 
 class ProfilePage extends StatefulWidget {

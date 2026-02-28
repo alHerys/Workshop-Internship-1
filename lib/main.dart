@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import 'core/const/secret_const.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/auth/cubit/auth_cubit.dart';
-import 'presentation/home/pages/home_page.dart';
 import 'presentation/home/pages/root_page.dart';
 import 'presentation/onboarding_splash/pages/onboarding_page_1.dart';
 
@@ -16,7 +15,7 @@ void main() async {
     url: SecretConst.supabaseUrl,
     anonKey: SecretConst.supabaseAnonKey,
   );
-  
+
   runApp(const MyApp());
 }
 
