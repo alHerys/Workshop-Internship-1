@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/const/gif_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
-import '../cubit/auth_cubit.dart';
 import 'new_password_page.dart';
 
 class PasswordEmailSendPage extends StatelessWidget {
@@ -72,22 +71,17 @@ class PasswordEmailSendPage extends StatelessWidget {
                   ),
                 ),
 
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    return ElevatedButton(
-                      onPressed: state is PasswordRecovery
-                          ? () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewPasswordPage(),
-                                ),
-                              );
-                            }
-                          : null,
-                      child: Text('Selesai', style: AppText.semiBold20),
+                // TODO: Move to NewPasswordPage()
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewPasswordPage(),
+                      ),
                     );
                   },
+                  child: Text('Selesai', style: AppText.semiBold20),
                 ),
 
                 SizedBox(height: 12),
@@ -103,9 +97,7 @@ class PasswordEmailSendPage extends StatelessWidget {
                         text: 'Kirim ulang',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
-                            await context.read<AuthCubit>().sendEmailForgotPassword(
-                              email,
-                            );
+                            // TODO: Implement send password again
 
                             showDialog(
                               context: context,

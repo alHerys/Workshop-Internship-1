@@ -10,7 +10,6 @@ import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
 import '../../home/pages/root_page.dart';
-import '../cubit/auth_cubit.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/custom_field.dart';
 import '../widgets/password_field.dart';
@@ -171,11 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             aggreTermCondition: aggreTermCondition,
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
-                                await context.read<AuthCubit>().register(
-                                  namaController.text,
-                                  emailController.text,
-                                  passwordController.text,
-                                );
+                                // TODO: Register Functionality
 
                                 showDialog(
                                   context: context,
@@ -200,42 +195,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                 );
                               }
                             },
-                            buttonContent: BlocConsumer<AuthCubit, AuthState>(
-                              listener: (context, state) {
-                                if (state is AuthFailure) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Error Occured: ${state.message}',
-                                      ),
-                                    ),
-                                  );
-
-                                  print(state.message);
-                                }
-
-                                if (state is AuthSuccess) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => RootPage(),
-                                    ),
-                                  );
-                                }
-                              },
-                              builder: (context, state) {
-                                if (state is AuthLoading) {
-                                  return Image.asset(
-                                    GifConst.loadingDot,
-                                    height: 40,
-                                  );
-                                }
-
-                                return Text(
-                                  'Daftar',
-                                  style: AppText.semiBold20,
-                                );
-                              },
+                            buttonContent: Text(
+                              'Daftar',
+                              style: AppText.semiBold20,
                             ),
                           ),
                           Stack(

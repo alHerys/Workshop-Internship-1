@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/theme/app_pallete.dart';
 import '../../core/theme/app_text.dart';
-import '../auth/cubit/auth_cubit.dart';
-import '../auth/pages/start_page.dart';
 import '../auth/widgets/auth_background.dart';
 import '../auth/widgets/background2.dart';
 
@@ -22,11 +19,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    final state = context.read<AuthCubit>().state;
-    if (state is AuthSuccess) {
-      nameController.text = state.user.nama;
-      emailController.text = state.user.email;
-    }
+    // TODO: Get User Data from state
+    // final state = context.read<AuthCubit>().state;
+    // if (state is AuthSuccess) {
+    //   nameController.text = state.user.nama;
+    //   emailController.text = state.user.email;
+    // }
   }
 
   @override
@@ -118,34 +116,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
-                              BlocListener<AuthCubit, AuthState>(
-                                listener: (context, state) {
-                                  if (state is AuthInitial) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => StartPage(),
-                                      ),
-                                    );
-                                  }
+                              ElevatedButton(
+                                onPressed: () async {
+                                  // TODO: Logout Functionality
                                 },
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await context.read<AuthCubit>().logout();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppPallete.errorNormal,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppPallete.errorNormal,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                    ),
 
-                                    child: Text(
-                                      'Iya',
-                                      style: AppText.semiBold14,
-                                    ),
-                                  ),
+                                  child: Text('Iya', style: AppText.semiBold14),
                                 ),
                               ),
                             ],

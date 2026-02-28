@@ -8,7 +8,6 @@ import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
-import '../cubit/auth_cubit.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
@@ -120,47 +119,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Flexible(
                         child: AuthButton(
                           emailController: emailController,
-                          buttonContent: BlocConsumer<AuthCubit, AuthState>(
-                            listener: (context, state) {
-                              if (state is SendEmailForgotPassword) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PasswordEmailSendPage(
-                                      email: emailController.text,
-                                    ),
-                                  ),
-                                );
-                              }
-
-                              if (state is AuthFailure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Error Occured: ${state.message}',
-                                    ),
-                                  ),
-                                );
-
-                                print(state.message);
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is AuthLoading) {
-                                return Image.asset(
-                                  GifConst.loadingDot,
-                                  height: 35,
-                                );
-                              }
-
-                              return Text('Masuk', style: AppText.semiBold20);
-                            },
+                          buttonContent: Text(
+                            'Masuk',
+                            style: AppText.semiBold20,
                           ),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await context.read<AuthCubit>().sendEmailForgotPassword(
-                                emailController.text.trim(),
-                              );
+                              // TODO: Handle Send Email
                             }
                           },
                         ),

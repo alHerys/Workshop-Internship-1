@@ -6,7 +6,6 @@ import '../../../core/const/gif_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
-import '../cubit/auth_cubit.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
@@ -131,39 +130,13 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                         child: AuthButton(
                           passwordController: passwordController,
                           confirmPasswordController: confirmPasswordController,
-                          buttonContent: BlocConsumer<AuthCubit, AuthState>(
-                            listener: (context, state) {
-                              if (state is AuthInitial) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
-                                  ),
-                                );
-                              }
-
-                              if (state is AuthFailure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(state.message)),
-                                );
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is AuthLoading) {
-                                return Image.asset(
-                                  GifConst.loadingDot,
-                                  height: 30,
-                                );
-                              }
-
-                              return Text('Kirim', style: AppText.semiBold20);
-                            },
+                          buttonContent: Text(
+                            'Kirim',
+                            style: AppText.semiBold20,
                           ),
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await context.read<AuthCubit>().updatePassword(
-                                passwordController.text.trim(),
-                              );
+                              // TODO: New Password Functionality
                             }
                           },
                         ),

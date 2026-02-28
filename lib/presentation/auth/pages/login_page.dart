@@ -10,7 +10,6 @@ import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
 import '../../home/pages/root_page.dart';
-import '../cubit/auth_cubit.dart';
 import '../widgets/auth_background.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
@@ -136,52 +135,12 @@ class _LoginPageState extends State<LoginPage> {
                                 AuthButton(
                                   emailController: emailController,
                                   passwordController: passwordController,
-                                  buttonContent: BlocConsumer<AuthCubit, AuthState>(
-                                    listener: (context, state) {
-                                      if (state is AuthFailure) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Error Occured: ${state.message}',
-                                            ),
-                                          ),
-                                        );
-
-                                        print(state.message);
-                                      }
-
-                                      if (state is AuthSuccess) {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => RootPage(),
-                                          ),
-                                        );
-
-                                        print(state.user);
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state is AuthLoading) {
-                                        return Image.asset(
-                                          GifConst.loadingDot,
-                                          height: 30,
-                                        );
-                                      }
-
-                                      return Text(
-                                        'Masuk',
-                                        style: AppText.semiBold20,
-                                      );
-                                    },
+                                  buttonContent: Text(
+                                    'Masuk',
+                                    style: AppText.semiBold20,
                                   ),
                                   onPressed: () async {
-                                    await context.read<AuthCubit>().login(
-                                      emailController.text.trim(),
-                                      passwordController.text.trim(),
-                                    );
+                                    // TODO: Login Functionality
                                   },
                                 ),
                                 Stack(
