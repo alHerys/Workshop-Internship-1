@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/const/gif_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
 import '../../../core/validator/auth_validator.dart';
@@ -11,7 +9,6 @@ import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
 import '../widgets/background3.dart';
 import '../widgets/password_field.dart';
-import 'login_page.dart';
 
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});

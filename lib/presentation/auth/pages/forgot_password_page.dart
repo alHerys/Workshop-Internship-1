@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/const/gif_const.dart';
 import '../../../core/const/icons_const.dart';
 import '../../../core/theme/app_pallete.dart';
 import '../../../core/theme/app_text.dart';
@@ -13,7 +11,6 @@ import '../widgets/auth_button.dart';
 import '../widgets/background1.dart';
 import '../widgets/background3.dart';
 import '../widgets/custom_field.dart';
-import 'password_email_send_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
