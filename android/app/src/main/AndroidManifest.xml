@@ -1,6 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+     <!-- Izin Kamera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- Izin Galeri (Android 12 ke bawah) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <!-- Izin Galeri (Android 13+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:label="Malang Venture"
         android:name="${applicationName}"

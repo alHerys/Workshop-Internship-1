@@ -13,7 +13,7 @@ class MenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: 82
+        minWidth: 60
       ),
       child: Column(
         spacing: 8,

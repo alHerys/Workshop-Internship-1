@@ -7,6 +7,7 @@ import 'core/theme/app_theme.dart';
 import 'presentation/auth/cubit/auth_cubit.dart';
 import 'presentation/home/pages/root_page.dart';
 import 'presentation/onboarding_splash/pages/onboarding_page_1.dart';
+import 'presentation/profile/cubit/profile_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,22 +25,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit()..checkSessionListener(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.theme,
-        home: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => RootPage()),
-              );
-            }
-          },
-          child: OnboardingPage1(),
+    return RepositoryProvider(
+      create: (_) => Supabase.instance.client,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                AuthCubit(context.read<SupabaseClient>())
+                  ..checkSessionListener(),
+          ),
+          BlocProvider(
+            create: (context) => ProfileCubit(context.read<SupabaseClient>()),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.theme,
+          home: BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is AuthSuccess) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => RootPage()),
+                );
+              }
+            },
+            child: OnboardingPage1(),
+          ),
         ),
       ),
     );

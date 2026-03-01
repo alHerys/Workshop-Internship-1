@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data/models/user_model.dart';
@@ -9,10 +10,10 @@ import '../../../data/models/user_model.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final supabase = Supabase.instance.client;
+  final SupabaseClient supabase;
   late final StreamSubscription _authStateSubscription;
 
-  AuthCubit() : super(AuthInitial());
+  AuthCubit(this.supabase) : super(AuthInitial());
 
   @override
   Future<void> close() async {
@@ -21,29 +22,40 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void checkSessionListener() {
-    _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
-      final session = data.session;
-      final event = data.event;
+    try {
+      _authStateSubscription = supabase.auth.onAuthStateChange.listen((
+        data,
+      ) async {
+        final session = data.session;
+        final event = data.event;
 
-      if (event == AuthChangeEvent.passwordRecovery) {
-        emit(PasswordRecovery());
-        return;
-      }
+        if (event == AuthChangeEvent.passwordRecovery) {
+          emit(PasswordRecovery());
+          return;
+        }
 
-      if (session != null) {
-        print(session.user);
-        emit(
-          AuthSuccess(
-            UserModel(
-              nama: session.user.userMetadata?['nama'],
-              email: session.user.email!,
+        if (session != null) {
+          print(session.user);
+
+          emit(
+            AuthSuccess(
+              UserModel(
+                nama: session.user.userMetadata?['name'],
+                fotoProfil: session.user.userMetadata?['avatar_url'],
+                telepon: session.user.userMetadata?['phone_number'],
+                negara: session.user.userMetadata?['country'],
+                email: session.user.email!,
+              ),
             ),
-          ),
-        );
-      } else {
-        emit(AuthInitial());
-      }
-    });
+          );
+        } else {
+          emit(AuthInitial());
+        }
+      });
+    } catch (e) {
+      print(e);
+      emit(AuthFailure(e.toString()));
+    }
   }
 
   Future<void> register(String name, String email, String password) async {
@@ -53,7 +65,12 @@ class AuthCubit extends Cubit<AuthState> {
       await supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'nama': name},
+        data: {
+          'name': name,
+          'avatar_url': null,
+          'phone_number': null,
+          'country': null,
+        },
         emailRedirectTo: kIsWeb
             ? null
             : 'io.supabase.malangventure://auth-callback',
@@ -105,7 +122,46 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void authGoogle() {}
+  Future<void> authGoogle() async {
+    const webClientId =
+        '24496365114-piioa7urngn7n08phh0isv5i0uga9v0n.apps.googleusercontent.com';
+
+    final scopes = ['email', 'profile'];
+
+    final googleSignIn = GoogleSignIn.instance;
+
+    await googleSignIn.initialize(
+      serverClientId: webClientId,
+    );
+
+    final googleUser = await googleSignIn.attemptLightweightAuthentication();
+    
+    if (googleUser == null) {
+      return emit(AuthFailure('Failed to sign in with Google.'));
+    }
+
+    final authorization =
+        await googleUser.authorizationClient.authorizationForScopes(scopes) ??
+        await googleUser.authorizationClient.authorizeScopes(scopes);
+    final idToken = googleUser.authentication.idToken;
+
+    if (idToken == null) {
+      return emit(AuthFailure('No ID Token found.'));
+    }
+
+    try {
+      await supabase.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: authorization.accessToken,
+      );
+    } catch (e) {
+      print(e);
+      emit(AuthFailure(e.toString()));
+    }
+  }
+  
+
   void authApple() {}
 
   @override

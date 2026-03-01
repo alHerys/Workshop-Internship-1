@@ -261,8 +261,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             spacing: 20,
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  // TODO: Implement Google registration logic
+                                onTap: () async {
+                                  context.read<AuthCubit>().authGoogle();
                                 },
                                 child: SvgPicture.asset(IconConst.googleLogo),
                               ),
